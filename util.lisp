@@ -37,3 +37,11 @@
     (mapcar #'read-from-string (split-sequence:split-sequence #\Space string))))
 
 
+(defun integer-digits (n &optional (radix 10))
+  "Split a non-negative integer into its digits"
+  (declare (type unsigned-byte n))
+  (labels ((i-dig (n)
+	     (if (< n radix) (list n)
+		 (multiple-value-bind (q r) (floor n radix)
+		   (cons r (i-dig q))))))
+    (nreverse (i-dig n))))
